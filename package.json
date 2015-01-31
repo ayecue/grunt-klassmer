@@ -1,0 +1,28 @@
+{
+  "name": "grunt-klassmer",
+  "version": "0.1.0",
+  "description": "Merge files order you require.",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ayecue/grunt-klassmer.git"
+  },
+  "author": {
+    "name": "ayecue"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "uglify-js": "^2.4.0"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.2.0",
+    "path": "~0.11.14"
+  },
+  "bugs": {
+    "url": "https://github.com/ayecue/grunt-klassmer/issues"
+  }
+}
