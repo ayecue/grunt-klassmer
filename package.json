@@ -1,6 +1,6 @@
 {
   "name": "grunt-klassmer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Merge files order you require.",
   "main": "Gruntfile.js",
   "scripts": {
