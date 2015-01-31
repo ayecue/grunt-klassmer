@@ -1,4 +1,4 @@
-# grunt-klassmer v0.1.0
+# grunt-klassmer v0.1.2
 
 > Optimize CommonJS projects for your browser.
 
