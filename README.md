@@ -1,4 +1,4 @@
-# grunt-klassmer v0.1.3
+# grunt-klassmer v0.1.4
 
 > Optimize CommonJS projects for your browser.
 
@@ -46,4 +46,4 @@ grunt.initConfig({
 
 Right now it's a pretty early version which I just tested with my own project.
 
-Tests and more documentation will be added soon.
+More documentation will be added soon.

@@ -56,7 +56,7 @@ module.exports = function(grunt) {
         var filepath = config.src;
 
         if (!grunt.file.isFile(filepath)) {
-            grunt.log.error('Invalid path "' + filepath + '".');
+            grunt.fail.fatal('Invalid path "' + filepath + '".');
             return;
         }
 
@@ -65,7 +65,13 @@ module.exports = function(grunt) {
             file = new File(filepath);
 
         file.findDependencies();
-        file.loadDependencies();
+        var success = file.loadDependencies(function(){
+            return dependencyMapper.isCyclic();
+        });
+
+        if (success === false) {
+            return;
+        }
 
         //sort deps
         var sorted = dependencyMapper.sort();

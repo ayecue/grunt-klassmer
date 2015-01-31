@@ -71,6 +71,30 @@ File.prototype = {
     getBasedir : function(){
         return this.basedir;
     },
+    indexOfDep : function(filepath){
+        var me = this,
+            deps = me.dependencies;
+
+        for (var index = 0, length = deps.length; index < length; index++) {
+            var dep = deps[index];
+
+            if (dep.getFilepath() === filepath) {
+                return index;
+            }
+        }
+
+        return -1;
+    },
+    findDep : function(filepath){
+        var me = this,
+            idx = me.indexOfDep(filepath);
+
+        if (idx !== -1) {
+            return me.dependencies[idx];
+        }
+
+        return null;
+    },
     findDependencies : function(){
         var me = this,
             deps = me.dependencies;
@@ -85,7 +109,7 @@ File.prototype = {
             deps.push(dep);
         });
     },
-    loadDependencies : function(){
+    loadDependencies : function(processFn){
         var me = this,
             deps = me.dependencies;
 
@@ -94,17 +118,28 @@ File.prototype = {
                 filepath = dependency.getFilepath();
 
             if (!grunt.file.isFile(filepath)) {
-                grunt.log.error('Invalid require path "' + filepath + '".');
-                continue;
+                grunt.fail.fatal('Invalid require path "' + filepath + '".');
+                return false;
+            }
+
+            if (processFn && processFn(dependency) === false) {
+                return false;
             }
 
             var source = new File(filepath,me.getBasedir());
 
             source.findDependencies();
-            source.loadDependencies();
 
-            me.files.push(source);
+            var success = source.loadDependencies(processFn);
+
+            if (success === true) {
+                me.files.push(source);
+            } else {
+                return false;
+            }
         }
+
+        return true;
     }
 };
 

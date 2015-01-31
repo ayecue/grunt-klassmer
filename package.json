@@ -1,6 +1,6 @@
 {
   "name": "grunt-klassmer",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "CommonJS merger for browser version.",
   "main": "Gruntfile.js",
   "homepage": "https://github.com/ayecue/grunt-klassmer",

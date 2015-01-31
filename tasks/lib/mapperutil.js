@@ -12,19 +12,6 @@ function MapperUtil(){
 }
 
 MapperUtil.prototype = {
-    findCyclic : function(m){
-        for (var x in m) {
-            var c = m[x];
-
-            for (var i = 0,l = c.length; i < l; i++) {
-                if (c[i] in m && m[c[i]].indexOf(x) !== -1) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    },
     isDepRequiredSomewhere : function(filepath,m){
         for (var key in m) {
             if (m[key].indexOf(filepath) !== -1) {

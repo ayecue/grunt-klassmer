@@ -17,8 +17,60 @@ function DependencyMapper(){
 
 DependencyMapper.prototype = {
     self : DependencyMapper,
+    indexOfFile : function(filepath){
+        var me = this,
+            collection = me.collection;
+
+        for (var index = 0, length = collection.length; index < length; index++) {
+            var module = collection[index];
+
+            if (module.getFilepath() === filepath) {
+                return index;
+            }
+        }
+
+        return -1;
+    },
+    findFile : function(filepath){
+        var me = this,
+            idx = me.indexOfFile(filepath);
+
+        if (idx !== -1) {
+            return me.collection[idx];
+        }
+
+        return null;
+    },
     add : function(){
-        this.collection.push.apply(this.collection,arguments);
+        var me = this,
+            collection = me.collection;
+
+        collection.push.apply(collection,arguments);
+    },
+    isCyclic: function(){
+        var me = this,
+            collection = me.collection;
+
+        for (var index = 0, length = collection.length; index < length; index++) {
+            var module = collection[index],
+                deps = module.getDependencies();
+
+            for (var x = 0,y = deps.length; x < y; x++) {
+                var dep = deps[x],
+                    otherModule = me.findFile(dep.getFilepath());
+
+                if (otherModule) {
+                    var otherDep = otherModule.findDep(module.getFilepath());
+
+                    if (otherDep) {
+                        grunt.fail.fatal('Dependency map is cyclic.');
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
     },
     getMap : function(){
         var me = this,
@@ -54,13 +106,7 @@ DependencyMapper.prototype = {
     },
     sort : function(){
         var me = this,
-            map = me.getMap(),
-            isCyclic = me.util.findCyclic();
-
-        if (isCyclic) {
-            grunt.log.error('Dependency map is cyclic.');
-            return;
-        }
+            map = me.getMap();
 
         var sorted = me.util.sortMap(map),
             refs = me.getRefMap(),

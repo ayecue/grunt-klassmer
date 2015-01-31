@@ -88,7 +88,7 @@ Config.prototype = {
             exceptions = me.exceptions;
 
         for (var index = 0, length = exceptions.length; index < length; index++) {
-            grunt.log.error(exceptions[index]);
+            grunt.fail.fatal(exceptions[index]);
         }
     }
 };
