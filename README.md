@@ -25,7 +25,7 @@ This package will merge your CommonJS project to one file to use it in frontend 
 
 ## Example:
 
-Example project: [Getting Started](https://github.com/ayecue/require-klass)
+Example project: [require-klass](https://github.com/ayecue/require-klass)
 
 ```js
 grunt.initConfig({

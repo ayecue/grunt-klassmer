@@ -1,7 +1,7 @@
 {
   "name": "grunt-klassmer",
-  "version": "0.1.1",
-  "description": "Merge files order you require.",
+  "version": "0.1.2",
+  "description": "CommonJS merger for browser version.",
   "main": "Gruntfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
