@@ -15,7 +15,7 @@ npm install grunt-klassmer --save-dev
 Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
 
 ```js
-grunt.loadNpmTasks('grunt-contrib-uglify');
+grunt.loadNpmTasks('grunt-klassmer');
 ```
 
 ## Description
