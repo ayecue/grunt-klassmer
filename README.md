@@ -1,10 +1,11 @@
-# grunt-klassmer v0.1.5 [![Build Status](https://travis-ci.org/ayecue/grunt-klassmer.png?branch=master)](https://travis-ci.org/ayecue/grunt-klassmer)
+# grunt-klassmer v0.1.6 
+[![Build Status](https://travis-ci.org/ayecue/grunt-klassmer.png?branch=master)](https://travis-ci.org/ayecue/grunt-klassmer)
 
 > Optimize CommonJS projects for your browser.
 
 
 ## Getting Started
-This plugin requires Grunt `~0.4.5`
+This plugin requires Grunt `~0.4.5` and UglifyJS `~2.4.16`
 
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
@@ -21,6 +22,8 @@ grunt.loadNpmTasks('grunt-klassmer');
 ## Description
 
 This package will merge your CommonJS project to one file to use it in frontend without any overhead.
+
+This project is mainly tested and optimized for this project [require-klass](https://github.com/ayecue/require-klass). I will try to improve it for other structures. 
 
 
 ## Example:
