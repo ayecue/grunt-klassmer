@@ -31,7 +31,8 @@ exports.klassmer = {
     var files = [
       'merged_simple.js',
       'merged_simple_opt.js',
-      'merged_simple_namespace.js'
+      'merged_simple_namespace.js',
+      'merged_object.js'
     ];
 
     test.expect(files.length);

@@ -12,6 +12,10 @@ var grunt = require('grunt'),
     Props = require('./props');
 
 function Analyzer(){
+    var me = this;
+
+    me.moduleExport = false;
+    me.objectExport = false;
 }
 
 Analyzer.from = function(values){
@@ -22,22 +26,24 @@ Analyzer.from = function(values){
 };
 Analyzer.opts = {
     "Function" : function(object,last){
-        var body = this.self.from(object.body);
+        var me = this,
+            body = me.self.from(object.body);
 
         for (var index = body.length; index--;) {
             var props = new Props(body,index,last);
 
-            this.findRequire(body[index],props);
+            me.findRequireEx(body[index],props);
         }
     },
     "Var" : function(object,last){
-        var defs = this.self.from(object.definitions);
+        var me = this,
+            defs = me.self.from(object.definitions);
 
         for (var index = defs.length; index--;) {
             var def = defs[index],
                 props = new Props(defs,index,last);
 
-            this.findRequire(def,props);
+            me.findRequireEx(def,props);
         }
 
         if (defs.length === 0 && last) {
@@ -49,7 +55,8 @@ Analyzer.opts = {
         }
     },
     "VarDef" : function(object,last){
-        var props;
+        var me = this,
+            props;
 
         if (!object.value) {
             return;
@@ -57,19 +64,19 @@ Analyzer.opts = {
 
         if (object.value.TYPE === "Call") {
             props = new Props(object,"value",last);
-            this.findRequire(object.value,props);
+            me.findRequireEx(object.value,props);
         } else if (object.value.TYPE === "Function") {
             props = new Props(object,"value",last);
-            this.findRequire(object.value,props);
+            me.findRequireEx(object.value,props);
         } else if (object.value.TYPE === "Assign") {
             props = new Props(object,"value",last);
-            this.findRequire(object.value,props);
+            me.findRequireEx(object.value,props);
         }
     },
     "Assign" : function(object,last){
         var props = new Props(object,"right",last);
             
-        this.findRequire(object.right,props);
+        this.findRequireEx(object.right,props);
     }, 
     "Call" : function(object,last){
         if (object.start.value === "require") {
@@ -80,38 +87,52 @@ Analyzer.opts = {
             value.splice(key,1);
         } else {
             var props = new Props(object,"expression",last);
-            this.findRequire(object.expression,props);
+            this.findRequireEx(object.expression,props);
         }
     },
     "SimpleStatement" : function(object,last){
-        if (object.body.operator === "=" && object.body.left.property === "exports") {
-            if (object.body.left.expression.name === "module") {
+        var me = this,
+            body = object.body,
+            left = body.left;
+
+        if (body.operator === "=" && left.property === "exports") {
+            if (left.expression && left.expression.name === "module") {
                 var value = last.getValue(),
                     key = last.getKey();
 
                 value[key] = new uglifyjs.AST_Return({
                     value : object.body.right
                 });
+
+                me.moduleExport = true;
             }
-        }
+        } else if (body.operator === "=" && left.expression && left.expression.name === "exports") {
+            me.objectExport = true;
+        } 
 
         var props = new Props(object,"body",last);
-        this.findRequire(object.body,props);
+        me.findRequireEx(object.body,props);
     },
     "Toplevel" : function(object,last){
-        var defs = object.body[0].definitions,
+        var me = this,
+            defs = object.body[0].definitions,
             index = defs.length - 1,
             props = new Props(defs,index,last);
 
-        this.findRequire(defs[index],props);
+        me.findRequireEx(defs[index],props);
+
+        if (me.ifObjectExport() && !me.ifModuleExport()) {
+            me.injectObjectExport(object);
+        }
     },
     "Object" : function(object,last){
-        var properties = this.self.from(object.properties);
+        var me = this,
+            properties = me.self.from(object.properties);
 
         for (var index = properties.length; index--;) {
             var props = new Props(properties,index,last);
 
-            this.findRequire(properties[index],props);
+            me.findRequireEx(properties[index],props);
         }
     },
     "ObjectKeyVal" : function(object,last){
@@ -129,11 +150,47 @@ Analyzer.opts = {
 
 Analyzer.prototype = {
     self : Analyzer,
+    ifModuleExport : function(){
+        return this.moduleExport;
+    },
+    ifObjectExport : function(){
+        return this.objectExport;
+    },
     findRequire : function (object,last) {
+        var me = this;
+
+        me.moduleExport = false;
+        me.objectExport = false;
+        me.findRequireEx(object,last);
+    },
+    findRequireEx : function (object,last) {
+        var me = this;
+
         if (object instanceof uglifyjs.AST_Node) {
-            if (object.TYPE in this.self.opts) {
-                this.self.opts[object.TYPE].apply(this,arguments);
+            if (object.TYPE in me.self.opts) {
+                me.self.opts[object.TYPE].apply(me,arguments);
             }
+        }
+    },
+    injectObjectExport : function(object){
+        if (object instanceof uglifyjs.AST_Toplevel) {
+            var scope = object.body[0].definitions[0].value,
+                arg = new uglifyjs.AST_Object({
+                    properties : []
+                }),
+                argName = new uglifyjs.AST_SymbolFunarg({
+                    name : "exports"
+                }),
+                symbolRef = new uglifyjs.AST_SymbolRef({
+                    name : "exports"
+                }),
+                bodyReturn = new uglifyjs.AST_Return({
+                    value : symbolRef
+                });
+
+            scope.args.push(arg);
+            scope.expression.argnames.push(argName);
+            scope.expression.body.push(bodyReturn);
         }
     }
 };

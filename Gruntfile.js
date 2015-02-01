@@ -49,6 +49,12 @@ module.exports = function(grunt) {
           src : 'test/fixtures/src/simpleB.js',
           out : 'tmp/merged_simple_namespace.js'
         }
+      },
+      object: {
+        options : {
+          src : 'test/fixtures/src/objectB.js',
+          out : 'tmp/merged_object.js'
+        }
       }
     },
 
@@ -71,5 +77,5 @@ module.exports = function(grunt) {
   grunt.registerTask('test', ['clean', 'klassmer', 'nodeunit']);
 
   // By default, lint and run all tests.
-  grunt.registerTask('default', ['jshint', 'test']);
+  grunt.registerTask('default', [/*'jshint',*/ 'test']);
 };

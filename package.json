@@ -1,6 +1,6 @@
 {
   "name": "grunt-klassmer",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "CommonJS merger for browser version.",
   "main": "Gruntfile.js",
   "homepage": "https://github.com/ayecue/grunt-klassmer",
@@ -35,7 +35,7 @@
     "url": "https://github.com/ayecue/grunt-klassmer/issues"
   },
   "peerDependencies": {
-    "grunt": "~0.4.1"
+    "grunt": "~0.4.5"
   },
   "keywords": [
     "gruntplugin"
