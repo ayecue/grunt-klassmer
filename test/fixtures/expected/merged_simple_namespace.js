@@ -1,11 +1,11 @@
 (function(global, factory) {
-    global.result = factory(global);
+    global.myClass = factory(global);
 })(this, function(global) {
     var a = function() {
         return {};
     }();
-    var result = function() {
+    var myClass = function() {
         return {};
     }();
-    return result;
+    return myClass;
 });

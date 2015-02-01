@@ -7,49 +7,50 @@
  */
 'use strict';
 
-var glob = require("glob"),
+var uglifyjs = require('uglify-js'),
     Dependency = require('./lib/dependency'),
-    DependencyMapper = require("./lib/dependencymapper"),
-    Writer = require("./lib/writer"),
+    dependencyMapper = require("./lib/dependencymapper"),
+    writer = require("./lib/writer"),
     File = require("./lib/file"),
     path = require("path"),
     Config = require("./lib/config");
 
 module.exports = function(grunt) {
     grunt.registerMultiTask('klassmer', 'Merge your files', function() {
-        var options = this.options({
-                separator: "\n\n",
-                name: "result",
-                wrapper: {
-                    module: "var <%= names %> = (function(){ <%= code %> })();",
-                    start: "(function (global, factory) {global.<%= result %> = factory(global);}(this, function (global) {",
-                    end: "return <%= result %>;}));"
-                },
-                wrap: {
-                    moduleFile: null,
-                    startFile: null,
-                    endFile: null
-                },
-                src: null,
-                out: null
-            });
-
-        var config = new Config(options);
+        var config = new Config(this.options({
+            separator: "\n\n",
+            namespace: "result",
+            wrapper: {
+                module: "var <%= names %> = (function(){ <%= code %> })();",
+                start: "(function (global, factory) {global.<%= namespace %> = factory(global);}(this, function (global) {",
+                end: "return <%= namespace %>;}));"
+            },
+            wrap: {
+                moduleFile: null,
+                startFile: null,
+                endFile: null
+            },
+            src: null,
+            out: null,
+            optimizer: {
+                beautify : true,
+                comments : true
+            }
+        }));
 
         if (config.hasExceptions()) {
             config.print();
             return;
         }
 
-        var dependencyMapper = new DependencyMapper(),
-            writer = new Writer(config);
+        writer.setConfig(config);
 
         Dependency.listener.on('create',function(){
             writer.addDependency(this);
         });
 
         File.listener.on('create',function(){
-            dependencyMapper.add(this);
+            dependencyMapper.addFile(this);
         });
 
         //get source file
@@ -61,10 +62,11 @@ module.exports = function(grunt) {
         }
 
         //find deps and load them
-        var dep = new Dependency(config.name,filepath,filepath),
+        var dep = new Dependency(config.namespace,filepath,filepath),
             file = new File(filepath);
 
         file.findDependencies();
+
         var success = file.loadDependencies(function(){
             return dependencyMapper.isCyclic();
         });
@@ -81,22 +83,21 @@ module.exports = function(grunt) {
         writer.setList(sorted);
 
         //comile source code
-        var src = [
-            grunt.template.process(config.wrapper.start, {
-                data: {
-                    result : config.name
-                }
+        var start = writer.process(config.wrapper.start, {
+                namespace : config.namespace
             }),
-            writer.get(),
-            grunt.template.process(config.wrapper.end, {
-                data: {
-                    result : config.name
-                }
-            })
-        ].join("");
+            end = writer.process(config.wrapper.end, {
+                namespace : config.namespace
+            }),
+            src = writer.get(),
+            code = writer.parse(start + src + end);
+
+        grunt.file.write(config.out,code);
+
+        writer.clear();
+        dependencyMapper.clear();
 
         //confirm message
-        grunt.file.write(config.out,src);
         grunt.log.oklns("Merging complete.");
     });
 };

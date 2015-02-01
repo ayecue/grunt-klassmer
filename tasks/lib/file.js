@@ -71,7 +71,7 @@ File.prototype = {
     getBasedir : function(){
         return this.basedir;
     },
-    indexOfDep : function(filepath){
+    indexOfDependency : function(filepath){
         var me = this,
             deps = me.dependencies;
 
@@ -85,9 +85,9 @@ File.prototype = {
 
         return -1;
     },
-    findDep : function(filepath){
+    getDependency : function(filepath){
         var me = this,
-            idx = me.indexOfDep(filepath);
+            idx = me.indexOfDependency(filepath);
 
         if (idx !== -1) {
             return me.dependencies[idx];

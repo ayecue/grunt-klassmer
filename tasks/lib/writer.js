@@ -10,14 +10,14 @@
 var grunt = require('grunt'),
     uglifyjs = require('uglify-js'),
     File = require('./file'),
-    Analyzer = require('./analyzer');
+    analyzer = require('./analyzer');
 
-var analyzer = new Analyzer();
+function Writer(){
+    var me = this;
 
-function Writer(config){
-    this.names = {};
-    this.list = [];
-    this.config = config;
+    me.names = {};
+    me.list = [];
+    me.config = {};
 }
 
 Writer.prototype = {
@@ -37,53 +37,76 @@ Writer.prototype = {
     setList : function(list){
         this.list = list;
     },
+    setConfig : function(config){
+        this.config = config;
+    },
     get : function(){
         var me = this,
             config = me.config,
             list = me.list,
-            converted = [],
-            createVarDef = function(v){
-                var other = v.slice(1),
-                    result = [];
-
-                if (other.length > 0) {
-                    result.push(other);
-                }
-
-                result.push(v.join('='));
-
-                return result.join(',');
-            };
+            converted = [];
 
         for (var index = 0, length = list.length; index < length; index++) {
             var module = list[index],
                 names = me.names[module.getFilepath()],
-                filecontent = module.getFilecontent();
-
-            var varDef = createVarDef(names),
-                processed = grunt.template.process(config.wrapper.module, {
-                    data: {
-                        names : varDef,
-                        code : filecontent
-                    }
-                }),
-                parsed = uglifyjs.parse(processed),
-                stream = uglifyjs.OutputStream({
-                    beautify : true,
-                    comments : true
-                });
-
-            analyzer.findRequire(parsed);
-
-            parsed.print(stream);
-
-            var code = stream.toString();
+                filecontent = module.getFilecontent(),
+                processed = me.moduleWrap(names,filecontent),
+                code = me.parse(processed,analyzer.findRequire.bind(analyzer));
 
             converted.push(code);
         }
 
         return converted.join(config.separator);
+    },
+    getAssign : function(names){
+        var other = names.slice(1),
+            result = [];
+
+        if (other.length > 0) {
+            result.push(other);
+        }
+
+        result.push(names.join('='));
+
+        return result.join(',');
+    },
+    moduleWrap : function(names,code){
+        var me = this,
+            config = me.config;
+
+        return me.process(config.wrapper.module, {
+            names : me.getAssign(names),
+            code : code
+        });
+    },
+    parse : function(code,process){
+        var me = this,
+            config = me.config,
+            parsed = uglifyjs.parse(code),
+            stream = uglifyjs.OutputStream(config.optimizer);
+
+        if (process) {
+            process(parsed);
+        }
+
+        parsed.print(stream);
+
+        return stream.toString();
+    },
+    process : function(code,data){
+        var me = this;
+
+        return grunt.template.process(code, {
+            data: data
+        });
+    },
+    clear : function(){
+        var me = this;
+
+        me.names = {};
+        me.list = [];
+        me.config = {};
     }
 };
 
-module.exports = Writer;
+module.exports = new Writer();

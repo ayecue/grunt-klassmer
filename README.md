@@ -1,4 +1,4 @@
-# grunt-klassmer v0.1.4
+# grunt-klassmer v0.1.5
 
 > Optimize CommonJS projects for your browser.
 
@@ -42,8 +42,48 @@ grunt.initConfig({
 ```
 
 
-## Info
+## Options
 
-Right now it's a pretty early version which I just tested with my own project.
+#### options.namespace
+Type: `String`
+Name of the output variable of your main module.
 
-More documentation will be added soon.
+#### options.wrapper
+Type: `Object`
+Settings for wrapper strings.
+
+#### options.wrapper.module
+Type: `String`
+Wrapper for every single module.
+
+#### options.wrapper.start
+Type: `String`
+Start of wrapper for whole merged project.
+
+#### options.wrap
+Type: `Object`
+Settings for wrapper files.
+
+#### options.wrap.moduleFile
+Type: `String`
+Path to file which should wrap for every single module.
+
+#### options.wrap.startFile
+Type: `String`
+Path to file which should start wrapping the whole merged project.
+
+#### options.wrap.endFile
+Type: `String`
+Path to file which should end wrapping the whole merged project.
+
+#### options.wrapper.src
+Type: `String`
+Path to main project file. (All other files will get loaded automaticly)
+
+#### options.wrapper.out
+Type: `String`
+Path to merged output file.
+
+#### optimizer
+Type: `Object`
+[Configuration variables](http://lisperator.net/uglifyjs/codegen)

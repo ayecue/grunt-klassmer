@@ -138,4 +138,4 @@ Analyzer.prototype = {
     }
 };
 
-module.exports = Analyzer;
+module.exports = new Analyzer();

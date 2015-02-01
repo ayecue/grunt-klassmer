@@ -43,4 +43,4 @@ MapperUtil.prototype = {
     }
 };
 
-module.exports = MapperUtil;
+module.exports = new MapperUtil();

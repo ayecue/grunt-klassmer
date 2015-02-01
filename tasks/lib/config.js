@@ -21,8 +21,9 @@ function Config(options){
     };
     me.src = options.src;
     me.out = options.out;
-    me.name = options.name;
+    me.namespace = options.namespace;
     me.separator = options.separator;
+    me.optimizer = options.optimizer;
 
     me.init();
 }
@@ -43,8 +44,8 @@ Config.prototype = {
             return;
         }
 
-        if (grunt.util.kindOf(me.name) !== "string") {
-            me.exceptions.push('Invalid name option. Have to be a string.');
+        if (grunt.util.kindOf(me.namespace) !== "string") {
+            me.exceptions.push('Invalid namespace option. Have to be a string.');
             return;
         }
 
@@ -78,6 +79,11 @@ Config.prototype = {
             }
 
             me.wrapper.end = grunt.file.read(options.wrap.endFile);
+        }
+
+        if (!me.optimizer) {
+            me.exceptions.push('Invalid optimizer options.');
+            return;
         }
     },
     hasExceptions : function(){

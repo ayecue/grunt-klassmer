@@ -32,6 +32,23 @@ module.exports = function(grunt) {
           src : 'test/fixtures/src/simpleB.js',
           out : 'tmp/merged_simple.js'
         }
+      },
+      simple_optimized: {
+        options : {
+          src : 'test/fixtures/src/simpleB.js',
+          out : 'tmp/merged_simple_opt.js',
+          optimizer : {
+              beautify : false,
+              comments : false
+          }
+        }
+      },
+      simple_namespace: {
+        options : {
+          namespace : 'myClass',
+          src : 'test/fixtures/src/simpleB.js',
+          out : 'tmp/merged_simple_namespace.js'
+        }
       }
     },
 

@@ -8,11 +8,10 @@
 'use strict';
 
 var grunt = require('grunt'),
-    MapperUtil = require('./mapperutil');
+    mapperUtil = require('./mapperutil');
 
 function DependencyMapper(){
     this.collection = [];
-    this.util = new MapperUtil();
 }
 
 DependencyMapper.prototype = {
@@ -41,7 +40,7 @@ DependencyMapper.prototype = {
 
         return null;
     },
-    add : function(){
+    addFile : function(){
         var me = this,
             collection = me.collection;
 
@@ -60,7 +59,7 @@ DependencyMapper.prototype = {
                     otherModule = me.findFile(dep.getFilepath());
 
                 if (otherModule) {
-                    var otherDep = otherModule.findDep(module.getFilepath());
+                    var otherDep = otherModule.getDependency(module.getFilepath());
 
                     if (otherDep) {
                         grunt.fail.fatal('Dependency map is cyclic.');
@@ -108,7 +107,7 @@ DependencyMapper.prototype = {
         var me = this,
             map = me.getMap();
 
-        var sorted = me.util.sortMap(map),
+        var sorted = mapperUtil.sortMap(map),
             refs = me.getRefMap(),
             result = [];
 
@@ -121,7 +120,10 @@ DependencyMapper.prototype = {
         }
 
         return result;
+    },
+    clear : function(){
+        this.collection = [];
     }
 };
 
-module.exports = DependencyMapper;
+module.exports = new DependencyMapper();
