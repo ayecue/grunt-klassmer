@@ -1,8 +1,8 @@
 language: node_js
 node_js:
-	- 0.8
+- 0.8
 before_install: 
-	- npm install -g grunt-cli
-	- npm install -g uglify-js
+- npm install -g grunt-cli
+- npm install -g uglify-js
 install: npm install
 before_script: grunt
