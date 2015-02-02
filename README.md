@@ -79,14 +79,14 @@ Path to file which should start wrapping the whole merged project.
 Type: `String`
 Path to file which should end wrapping the whole merged project.
 
-#### options.wrapper.src
+#### options.src
 Type: `String`
 Path to main project file. (All other files will get loaded automaticly)
 
-#### options.wrapper.out
+#### options.out
 Type: `String`
 Path to merged output file.
 
-#### optimizer
+#### options.optimizer
 Type: `Object`
 [Configuration variables](http://lisperator.net/uglifyjs/codegen)
