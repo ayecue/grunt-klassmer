@@ -38,6 +38,11 @@
     "grunt": "~0.4.5"
   },
   "keywords": [
-    "gruntplugin"
+    "gruntplugin",
+    "commonjs",
+    "merger",
+    "uglify-js",
+    "grunt"
+    "commonjs2browser"
   ]
 }
