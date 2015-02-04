@@ -42,7 +42,7 @@
     "commonjs",
     "merger",
     "uglify-js",
-    "grunt"
+    "grunt",
     "commonjs2browser"
   ]
 }
