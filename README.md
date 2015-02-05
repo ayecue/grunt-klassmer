@@ -1,4 +1,4 @@
-# grunt-klassmer v0.2.0 
+# grunt-klassmer v0.2.2 
 [![Build Status](https://travis-ci.org/ayecue/grunt-klassmer.png?branch=master)](https://travis-ci.org/ayecue/grunt-klassmer)
 
 > Optimize CommonJS projects for your browser.
@@ -18,6 +18,7 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 ```js
 grunt.loadNpmTasks('grunt-klassmer');
 ```
+
 
 ## Description
 
@@ -62,6 +63,10 @@ Wrapper for every single module.
 #### options.wrapper.start
 Type: `String`
 Start of wrapper for whole merged project.
+
+#### options.wrapper.end
+Type: `String`
+End of wrapper for whole merged project.
 
 #### options.wrap
 Type: `Object`

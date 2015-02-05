@@ -7,19 +7,17 @@
  */
 'use strict';
 
-var Loader = require('./lib/loader'),
-	Parser = require('./lib/parser'),
-	Config = require("./lib/config");
+var Klassmer = require('klassmer');
 
 module.exports = function(grunt) {
 	grunt.registerMultiTask('klassmer', 'Merge your files', function() {
-		var config = new Config(this.options({
+		var options = this.options({
 			separator: "\n\n",
 			namespace: "result",
 			wrapper: {
-				module: "var <%= idx %> = (function(){ <%= code %> })();",
-				start: "(function (global, factory) {global.<%= namespace %> = factory(global);}(this, function (global) {",
-				end: "return <%= namespace %>;}));"
+				module: "var %idx% = (function(){ %code% })();",
+				start: "(function (global, factory) {global.%namespace% = factory(global);}(this, function (global) {",
+				end: "return %namespace%;}));"
 			},
 			wrap: {
 				moduleFile: null,
@@ -32,26 +30,24 @@ module.exports = function(grunt) {
 				beautify : true,
 				comments : true
 			}
-		}));
+		});
 
-        if (config.hasExceptions()) {
-			config.print();
-			return;
-		}
-
-		var parser = new Parser(
-				config.namespace,
-				config.wrapper.module,
-				config.wrapper.start,
-				config.wrapper.end,
-				config.separator,
-				config.optimizer
-			),
-			loader = new Loader(config.src,parser,true);
-
-		grunt.file.write(config.out,loader.run());
-
-		//confirm message
-        grunt.log.oklns("Merging complete.");
+        Klassmer.run({
+			separator : options.separator,
+			namespace: options.namespace,
+			wrapper: {
+				module: options.wrapper.module,
+				start: options.wrapper.start,
+				end: options.wrapper.end
+			},
+			wrap: {
+				moduleFile: options.wrap.moduleFile,
+				startFile: options.wrap.startFile,
+				endFile: options.wrap.endFile
+			},
+			source: options.src,
+			output: options.out,
+			optimizer: options.optimizer
+        });
 	});
 };
