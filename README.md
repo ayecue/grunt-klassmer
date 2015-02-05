@@ -1,4 +1,4 @@
-# grunt-klassmer v0.2.2 
+# grunt-klassmer v0.2.3 
 [![Build Status](https://travis-ci.org/ayecue/grunt-klassmer.png?branch=master)](https://travis-ci.org/ayecue/grunt-klassmer)
 
 > Optimize CommonJS projects for your browser.
