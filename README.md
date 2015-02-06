@@ -1,4 +1,4 @@
-# grunt-klassmer v0.2.3 
+# grunt-klassmer v0.3.0 
 [![Build Status](https://travis-ci.org/ayecue/grunt-klassmer.png?branch=master)](https://travis-ci.org/ayecue/grunt-klassmer)
 
 > Optimize CommonJS projects for your browser.
@@ -24,7 +24,7 @@ grunt.loadNpmTasks('grunt-klassmer');
 
 This package will merge your CommonJS project to one file to use it in frontend without any overhead.
 
-This project is mainly tested and optimized for this project [require-klass](https://github.com/ayecue/require-klass). I will try to improve it for other structures. 
+Since `~0.3.0` there's also an autoloader which also loads external modules. If you don't want to add certain modules you are able to exclude them with the new `excludes` property.
 
 
 ## Example:
@@ -48,41 +48,7 @@ grunt.initConfig({
 
 ## Options
 
-#### options.namespace
-Type: `String`
-Name of the output variable of your main module.
-
-#### options.wrapper
-Type: `Object`
-Settings for wrapper strings.
-
-#### options.wrapper.module
-Type: `String`
-Wrapper for every single module.
-
-#### options.wrapper.start
-Type: `String`
-Start of wrapper for whole merged project.
-
-#### options.wrapper.end
-Type: `String`
-End of wrapper for whole merged project.
-
-#### options.wrap
-Type: `Object`
-Settings for wrapper files.
-
-#### options.wrap.moduleFile
-Type: `String`
-Path to file which should wrap for every single module.
-
-#### options.wrap.startFile
-Type: `String`
-Path to file which should start wrapping the whole merged project.
-
-#### options.wrap.endFile
-Type: `String`
-Path to file which should end wrapping the whole merged project.
+Either use the source option or the package option.
 
 #### options.src
 Type: `String`
@@ -92,6 +58,50 @@ Path to main project file. (All other files will get loaded automaticly)
 Type: `String`
 Path to merged output file.
 
-#### options.optimizer
+#### options.namespace (optional)
+Type: `String`
+Name of the output variable of your main module.
+
+#### options.wrapper (optional)
+Type: `Object`
+Settings for wrapper strings.
+
+#### options.wrapper.module (optional)
+Type: `String`
+Wrapper for every single module.
+
+#### options.wrapper.start (optional)
+Type: `String`
+Start of wrapper for whole merged project.
+
+#### options.wrapper.end (optional)
+Type: `String`
+End of wrapper for whole merged project.
+
+#### options.wrap (optional)
+Type: `Object`
+Settings for wrapper files.
+
+#### options.wrap.moduleFile (optional)
+Type: `String`
+Path to file which should wrap for every single module.
+
+#### options.wrap.startFile (optional)
+Type: `String`
+Path to file which should start wrapping the whole merged project.
+
+#### options.wrap.endFile (optional)
+Type: `String`
+Path to file which should end wrapping the whole merged project.
+
+#### options.excludes (optional)
+Type: `Array`
+Ignore certain required modules.
+
+#### options.package (optional)
+Type: `String`
+Path to package file (All other files will get loaded automaticly).
+
+#### options.optimizer (optional)
 Type: `Object`
 [Configuration variables](http://lisperator.net/uglifyjs/codegen)
