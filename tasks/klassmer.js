@@ -25,7 +25,6 @@ module.exports = function(grunt) {
 				endFile: null
 			},
 			excludes: null,
-            package: null,
 			src: null,
 			out: null,
 			optimizer: {
@@ -48,7 +47,6 @@ module.exports = function(grunt) {
 				endFile: options.wrap.endFile
 			},
 			excludes: options.excludes,
-            package: options.package,
 			source: options.src,
 			output: options.out,
 			optimizer: options.optimizer

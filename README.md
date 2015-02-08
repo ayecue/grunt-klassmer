@@ -1,4 +1,4 @@
-# grunt-klassmer v0.3.0 
+# grunt-klassmer v0.3.3
 [![Build Status](https://travis-ci.org/ayecue/grunt-klassmer.png?branch=master)](https://travis-ci.org/ayecue/grunt-klassmer)
 
 > Optimize CommonJS projects for your browser.
@@ -26,6 +26,8 @@ This package will merge your CommonJS project to one file to use it in frontend 
 
 Since `~0.3.0` there's also an autoloader which also loads external modules. If you don't want to add certain modules you are able to exclude them with the new `excludes` property.
 
+Since `~0.3.2` klassmer automaticly detects if you have choosen a javascript file as source or a package json.
+
 
 ## Example:
 
@@ -52,7 +54,7 @@ Either use the source option or the package option.
 
 #### options.src
 Type: `String`
-Path to main project file. (All other files will get loaded automaticly)
+Path to main project javascript file or package json. (All other files will get loaded automaticly)
 
 #### options.out
 Type: `String`
@@ -97,10 +99,6 @@ Path to file which should end wrapping the whole merged project.
 #### options.excludes (optional)
 Type: `Array`
 Ignore certain required modules.
-
-#### options.package (optional)
-Type: `String`
-Path to package file (All other files will get loaded automaticly).
 
 #### options.optimizer (optional)
 Type: `Object`
