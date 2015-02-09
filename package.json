@@ -1,6 +1,6 @@
 {
   "name": "grunt-klassmer",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "CommonJS merger for browser version.",
   "main": "Gruntfile.js",
   "homepage": "https://github.com/ayecue/grunt-klassmer",
@@ -23,7 +23,7 @@
   ],
   "dependencies": {
     "uglify-js": "~2.4.16",
-    "klassmer": "~0.3.5"
+    "klassmer": "~0.3.6"
   },
   "devDependencies": {
     "grunt": "~0.4.5",
