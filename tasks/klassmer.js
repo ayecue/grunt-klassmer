@@ -24,7 +24,7 @@ module.exports = function(grunt) {
 				startFile: null,
 				endFile: null
 			},
-			excludes: null,
+			excludes: [],
 			src: null,
 			out: null,
 			optimizer: {
@@ -33,7 +33,7 @@ module.exports = function(grunt) {
 			}
 		});
 
-        Klassmer.run({
+        Klassmer.merge({
 			separator : options.separator,
 			namespace: options.namespace,
 			wrapper: {
@@ -50,6 +50,20 @@ module.exports = function(grunt) {
 			source: options.src,
 			output: options.out,
 			optimizer: options.optimizer
+        });
+	});
+
+	grunt.registerMultiTask('klassmer_info', 'Generate dependency map', function() {
+		var options = this.options({
+			excludes: [],
+			src: null,
+			out: null
+		});
+
+        Klassmer.info({
+			excludes: options.excludes,
+			source: options.src,
+			output: options.out
         });
 	});
 };

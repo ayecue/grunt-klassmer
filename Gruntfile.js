@@ -58,6 +58,15 @@ module.exports = function(grunt) {
       }
     },
 
+    klassmer_info: {
+      simple: {
+        options : {
+          src : 'test/fixtures/src/simpleB.js',
+          out : 'tmp/test.html'
+        }
+      }
+    },
+
     // Unit tests.
     nodeunit: {
       tests: ['test/*_test.js']
@@ -74,7 +83,7 @@ module.exports = function(grunt) {
 
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['clean', 'klassmer', 'nodeunit']);
+  grunt.registerTask('test', ['clean', 'klassmer', 'klassmer_info', 'nodeunit']);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint', 'test']);
