@@ -1,9 +1,9 @@
-# grunt-klassmer v0.4.0
+# grunt-klassmer v0.4.1
 [![Build Status](https://travis-ci.org/ayecue/grunt-klassmer.png?branch=master)](https://travis-ci.org/ayecue/grunt-klassmer)
 
-> Optimize CommonJS projects for your browser.
+> Optimize CommonJS/AMD projects for your browser and visualize dependencies.
 
-[klassmer v0.4.0](https://github.com/ayecue/klassmer)
+[klassmer v0.4.1](https://github.com/ayecue/klassmer)
 
 ## Getting Started
 This plugin requires Grunt `~0.4.5` and UglifyJS `~2.4.16`
@@ -23,7 +23,7 @@ grunt.loadNpmTasks('grunt-klassmer');
 
 ## Description
 
-This package will merge your CommonJS project to one file to use it in frontend without any overhead. Also you can generate HTML files which show all dependencies of your project. Also you got the possibility to use the intern 'Klass' system in your project.
+This package will merge your CommonJS project to one file to use it in frontend without any overhead. Also you can generate HTML files which show all dependencies of your project. Another feature is that you got the possibility to use the intern 'Klass' system in your project.
 
 
 ## Changelog
