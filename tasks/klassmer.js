@@ -7,7 +7,7 @@
  */
 'use strict';
 
-var Klassmer = require('klassmer');
+require('klassmer');
 
 module.exports = function(grunt) {
 	grunt.registerMultiTask('klassmer', 'Merge your files', function() {

@@ -1,9 +1,9 @@
-# grunt-klassmer v0.4.1
+# grunt-klassmer v0.4.2
 [![Build Status](https://travis-ci.org/ayecue/grunt-klassmer.png?branch=master)](https://travis-ci.org/ayecue/grunt-klassmer)
 
 > Optimize CommonJS/AMD projects for your browser and visualize dependencies.
 
-[klassmer v0.4.1](https://github.com/ayecue/klassmer)
+[klassmer v0.4.8](https://github.com/ayecue/klassmer)
 
 ## Getting Started
 This plugin requires Grunt `~0.4.5` and UglifyJS `~2.4.16`
@@ -43,6 +43,8 @@ Since `~0.3.8` improved logic of package mapping. Merging is abit slower now sin
 Since `~0.3.9` you can select which compiler you want to use (right now there's just one for CommonJS). Also the speed of the cyclic check is now faster.
 
 Since `~0.4.0` refactored the whole library in preperation to new possible code patterns. Added functionality to create a html file which shows all dependencies.
+
+Since `~0.4.2` containing all fixes of the newest klassmer version.
 
 
 ## klassmer
