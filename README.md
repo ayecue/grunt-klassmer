@@ -1,4 +1,4 @@
-# grunt-klassmer v0.4.2
+# grunt-klassmer v0.4.3
 [![Build Status](https://travis-ci.org/ayecue/grunt-klassmer.png?branch=master)](https://travis-ci.org/ayecue/grunt-klassmer)
 
 > Optimize CommonJS/AMD projects for your browser and visualize dependencies.
